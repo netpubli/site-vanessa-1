@@ -1,0 +1,1414 @@
+@import "tailwindcss";
+
+/* ============================================================
+   CORPO FECHADO — DESIGN SYSTEM
+   Cinematic · Ancestral · Sagrado · Proteção Espiritual
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. COLOR TOKENS
+   ------------------------------------------------------------ */
+@layer base {
+  :root {
+    /* Background scale — deep navy / midnight */
+    --bg-deep:    #081827;
+    --bg-base:    #0F2435;
+    --bg-surface: #122D44;
+    --bg-raised:  #173450;
+    --bg-overlay: #1C3B5A;
+
+    /* Gold — luxury jewelry / candlelight · 9-stop scale */
+    --gold-50:  #FEF6E4;   /* near-white shimmer — specular highlight */
+    --gold-100: #F9E4A8;   /* champagne — bright reflected light */
+    --gold-200: #F2C957;   /* polished gold face */
+    --gold-300: #E8B040;   /* warm bright — 22k yellow gold */
+    --gold-400: #D9A441;   /* base gold — candlelight center */
+    --gold-500: #C38B2A;   /* mid warm — aged gold */
+    --gold-600: #A0711F;   /* antique gold — shadow edge */
+    --gold-700: #7A5218;   /* deep amber — carved shadow */
+    --gold-800: #5A3A10;   /* dark amber — deep recess */
+    --gold-900: #3D2508;   /* darkest anchor — near black-gold */
+
+    /* Semantic aliases — still used across components */
+    --gold-bright: var(--gold-400);
+    --gold-base:   var(--gold-500);
+    --gold-muted:  var(--gold-600);
+    --gold-dim:    var(--gold-700);
+    --gold-glow:    rgba(217, 164, 65, 0.22);
+    --gold-glow-lg: rgba(217, 164, 65, 0.12);
+
+    /* ── Gold gradient tokens ─────────────────────────────────
+       Ready-to-use gradient strings for text, buttons, dividers.
+       Reference as: background: var(--grad-gold-metallic);
+       ────────────────────────────────────────────────────── */
+
+    /* Metallic sheen — jewelry face in direct light */
+    --grad-gold-metallic: linear-gradient(
+      105deg,
+      var(--gold-800) 0%,
+      var(--gold-500) 20%,
+      var(--gold-200) 42%,
+      var(--gold-50)  50%,
+      var(--gold-200) 58%,
+      var(--gold-400) 75%,
+      var(--gold-600) 88%,
+      var(--gold-800) 100%
+    );
+
+    /* Warm radiance — candlelight on curved surface */
+    --grad-gold-warm: linear-gradient(
+      135deg,
+      var(--gold-700) 0%,
+      var(--gold-400) 35%,
+      var(--gold-200) 55%,
+      var(--gold-400) 75%,
+      var(--gold-700) 100%
+    );
+
+    /* Subtle horizontal — for dividers */
+    --grad-gold-divider: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--gold-800) 10%,
+      var(--gold-600) 25%,
+      var(--gold-300) 50%,
+      var(--gold-600) 75%,
+      var(--gold-800) 90%,
+      transparent 100%
+    );
+
+    /* Button surface — left-angled metallic sweep */
+    --grad-gold-btn: linear-gradient(
+      110deg,
+      var(--gold-600) 0%,
+      var(--gold-400) 30%,
+      var(--gold-200) 50%,
+      var(--gold-300) 65%,
+      var(--gold-500) 85%,
+      var(--gold-700) 100%
+    );
+
+    /* Button hover — brighter sweep */
+    --grad-gold-btn-hover: linear-gradient(
+      110deg,
+      var(--gold-500) 0%,
+      var(--gold-300) 30%,
+      var(--gold-100) 50%,
+      var(--gold-200) 65%,
+      var(--gold-400) 85%,
+      var(--gold-600) 100%
+    );
+
+    /* Green — Espada de São Jorge, floresta, proteção */
+    --green-base:   #355E3B;
+    --green-light:  #4A7D52;
+    --green-dark:   #243F29;
+    --green-glow:   #355E3B2A;
+
+    /* Neutral — parchment / candlelight paper */
+    --neutral-100:  #F4E8D5;
+    --neutral-200:  #E8D4B8;
+    --neutral-300:  #D4B896;
+    --neutral-400:  #B89470;
+    --neutral-500:  #8C6A44;
+
+    /* Text */
+    --text-primary:   #F4E8D5;
+    --text-secondary: #C4AE8E;
+    --text-muted:     #7A6550;
+    --text-gold:      #D9A441;
+    --text-on-gold:   #081827;
+
+    /* Borders */
+    --border-subtle:  rgba(217, 164, 65, 0.10);
+    --border-base:    rgba(217, 164, 65, 0.22);
+    --border-strong:  rgba(242, 201, 87, 0.45);
+    --border-bright:  rgba(249, 228, 168, 0.60);
+    --border-green:   rgba(53, 94, 59, 0.35);
+
+    /* Shadows — richer, warmer amber tones */
+    --shadow-gold-sm: 0 2px 12px rgba(195, 139, 42, 0.25);
+    --shadow-gold-md: 0 4px 32px rgba(195, 139, 42, 0.30),
+                      0 2px 8px  rgba(90, 58, 16, 0.40);
+    --shadow-gold-lg: 0 8px 60px rgba(195, 139, 42, 0.28),
+                      0 4px 20px rgba(90, 58, 16, 0.50);
+    --shadow-gold-xl: 0 16px 96px rgba(195, 139, 42, 0.22),
+                      0 8px 40px rgba(90, 58, 16, 0.45);
+    --shadow-deep:    0 4px 40px rgba(4, 12, 20, 0.90);
+    --shadow-inset:   inset 0 1px 0 rgba(249, 228, 168, 0.20),
+                      inset 0 -1px 0 rgba(61, 37, 8, 0.40);
+
+    /* Spacing scale */
+    --space-1:  0.25rem;    /*  4px */
+    --space-2:  0.5rem;     /*  8px */
+    --space-3:  0.75rem;    /* 12px */
+    --space-4:  1rem;       /* 16px */
+    --space-5:  1.25rem;    /* 20px */
+    --space-6:  1.5rem;     /* 24px */
+    --space-8:  2rem;       /* 32px */
+    --space-10: 2.5rem;     /* 40px */
+    --space-12: 3rem;       /* 48px */
+    --space-16: 4rem;       /* 64px */
+    --space-20: 5rem;       /* 80px */
+    --space-24: 6rem;       /* 96px */
+    --space-32: 8rem;       /* 128px */
+    --space-section: clamp(5rem, 10vw, 8rem); /* responsive section padding */
+
+    /* Border radius */
+    --radius-sm:   4px;
+    --radius-md:   8px;
+    --radius-lg:   12px;
+    --radius-xl:   20px;
+    --radius-pill: 9999px;
+
+    /* Transitions */
+    --ease-sacred:  cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --ease-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
+    --duration-fast:   180ms;
+    --duration-base:   300ms;
+    --duration-slow:   500ms;
+    --duration-xslow:  800ms;
+
+    /* Max widths */
+    --content-sm:  640px;
+    --content-md:  768px;
+    --content-lg:  1024px;
+    --content-xl:  1200px;
+    --content-full: 1400px;
+  }
+}
+
+/* ------------------------------------------------------------
+   2. BASE RESET & GLOBAL STYLES
+   ------------------------------------------------------------ */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    background-color: var(--bg-deep);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scrollbar — minimal dark styling */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-deep); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--gold-dim);
+    border-radius: var(--radius-pill);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold-muted); }
+
+  /* Selection */
+  ::selection {
+    background: var(--gold-dim);
+    color: var(--neutral-100);
+  }
+}
+
+/* ------------------------------------------------------------
+   3. TYPOGRAPHY SYSTEM
+   ------------------------------------------------------------ */
+@layer base {
+  /* Display — cinematic, editorial */
+  .type-display {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+
+  /* Headings */
+  .type-h1 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+
+  .type-h2 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--text-primary);
+  }
+
+  .type-h3 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  .type-h4 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--text-primary);
+  }
+
+  /* Subtitle — Inter, wide tracking */
+  .type-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.9rem, 2vw, 1.125rem);
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+    color: var(--text-secondary);
+  }
+
+  /* Body */
+  .type-body {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  .type-body-sm {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  /* Caption / eyebrow — all-caps Inter */
+  .type-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-gold);
+  }
+
+  /* Quote / pullquote */
+  .type-quote {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.25rem, 3vw, 1.875rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--neutral-200);
+  }
+
+  /* Italic heading variant */
+  .type-italic {
+    font-style: italic;
+  }
+
+  /* Gold text */
+  .text-gold {
+    color: var(--text-gold);
+  }
+
+  /* Gradient gold text — jewelry metallic sheen */
+  .text-gold-gradient {
+    background: var(--grad-gold-metallic);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Warm gold text — candlelight variant */
+  .text-gold-warm {
+    background: var(--grad-gold-warm);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Parchment text */
+  .text-parchment {
+    color: var(--neutral-100);
+  }
+
+  /* Muted text */
+  .text-muted {
+    color: var(--text-muted);
+  }
+}
+
+/* ------------------------------------------------------------
+   4. BUTTON SYSTEM
+   ------------------------------------------------------------ */
+@layer components {
+  /* Base button reset */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition:
+      background var(--duration-base) var(--ease-smooth),
+      box-shadow var(--duration-base) var(--ease-smooth),
+      transform var(--duration-fast) var(--ease-smooth),
+      border-color var(--duration-base) var(--ease-smooth),
+      color var(--duration-base) var(--ease-smooth);
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  /* Primary — metallic jewelry gold */
+  .btn-primary {
+    padding: 0.875rem 2.25rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.95rem;
+    background: var(--grad-gold-btn);
+    background-size: 200% 100%;
+    background-position: right center;
+    color: var(--gold-900);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    border: 1px solid rgba(249, 228, 168, 0.25);
+    box-shadow: var(--shadow-gold-md), var(--shadow-inset);
+    transition:
+      background-position 0.4s var(--ease-sacred),
+      box-shadow var(--duration-base) var(--ease-smooth),
+      transform var(--duration-fast) var(--ease-smooth),
+      border-color var(--duration-base) var(--ease-smooth);
+  }
+
+  /* Specular shimmer layer */
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgba(255, 248, 220, 0.25) 50%,
+      transparent 70%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+    transition: opacity var(--duration-base) var(--ease-smooth);
+  }
+
+  .btn-primary:hover {
+    background: var(--grad-gold-btn-hover);
+    background-size: 200% 100%;
+    background-position: left center;
+    box-shadow: var(--shadow-gold-lg);
+    border-color: rgba(249, 228, 168, 0.40);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary:hover::before {
+    opacity: 0.6;
+  }
+
+  /* Secondary — gold outlined */
+  .btn-secondary {
+    padding: 0.875rem 2.25rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.95rem;
+    background: transparent;
+    color: var(--gold-bright);
+    border: 1px solid var(--border-base);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(217, 164, 65, 0.08);
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-gold-sm);
+    transform: translateY(-2px);
+  }
+
+  /* Ghost — minimal, subtle */
+  .btn-ghost {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .btn-ghost:hover {
+    color: var(--text-primary);
+    border-color: var(--border-base);
+    background: rgba(244, 232, 213, 0.04);
+  }
+
+  /* Green — São Jorge, protection */
+  .btn-verde {
+    padding: 0.875rem 2.25rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.95rem;
+    background: linear-gradient(135deg, var(--green-light) 0%, var(--green-base) 100%);
+    color: var(--neutral-100);
+    border: 1px solid rgba(74, 125, 82, 0.4);
+    box-shadow: 0 4px 24px var(--green-glow);
+  }
+
+  .btn-verde:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(53, 94, 59, 0.4);
+  }
+
+  /* Size modifiers */
+  .btn-sm {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+  }
+
+  .btn-lg {
+    padding: 1.125rem 3rem;
+    font-size: 1.05rem;
+  }
+}
+
+/* ------------------------------------------------------------
+   5. CARD SYSTEM
+   ------------------------------------------------------------ */
+@layer components {
+  /* Base card */
+  .card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    transition:
+      border-color var(--duration-base) var(--ease-smooth),
+      box-shadow var(--duration-base) var(--ease-smooth),
+      transform var(--duration-base) var(--ease-smooth);
+  }
+
+  .card:hover {
+    border-color: var(--border-base);
+    box-shadow: var(--shadow-gold-sm);
+    transform: translateY(-3px);
+  }
+
+  /* Glass card — translucent layer */
+  .card-glass {
+    background: rgba(18, 45, 68, 0.55);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    transition:
+      border-color var(--duration-base) var(--ease-smooth),
+      box-shadow var(--duration-base) var(--ease-smooth),
+      transform var(--duration-base) var(--ease-smooth);
+  }
+
+  .card-glass:hover {
+    border-color: var(--border-base);
+    box-shadow: var(--shadow-gold-sm), inset 0 0 40px rgba(217, 164, 65, 0.03);
+    transform: translateY(-3px);
+  }
+
+  /* Ritual card — gold border accent */
+  .card-ritual {
+    background: linear-gradient(
+      160deg,
+      rgba(23, 52, 80, 0.9) 0%,
+      rgba(18, 45, 68, 0.95) 100%
+    );
+    border: 1px solid var(--border-base);
+    border-radius: var(--radius-xl);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-inset), var(--shadow-deep);
+    position: relative;
+    overflow: hidden;
+    transition:
+      border-color var(--duration-base) var(--ease-smooth),
+      box-shadow var(--duration-base) var(--ease-smooth),
+      transform var(--duration-base) var(--ease-smooth);
+  }
+
+  .card-ritual::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--gold-bright) 50%,
+      transparent 100%
+    );
+    opacity: 0.6;
+  }
+
+  .card-ritual:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-gold-md), var(--shadow-deep);
+    transform: translateY(-4px);
+  }
+
+  /* Flat card — no hover lift, static */
+  .card-flat {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+}
+
+/* ------------------------------------------------------------
+   6. SECTION STYLES
+   ------------------------------------------------------------ */
+@layer components {
+  /* Standard section padding */
+  .section {
+    padding-top: var(--space-section);
+    padding-bottom: var(--space-section);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Section container */
+  .section-container {
+    max-width: var(--content-xl);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1rem, 5vw, 3rem);
+    padding-right: clamp(1rem, 5vw, 3rem);
+  }
+
+  .section-container-sm {
+    max-width: var(--content-md);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1rem, 5vw, 3rem);
+    padding-right: clamp(1rem, 5vw, 3rem);
+  }
+
+  .section-container-lg {
+    max-width: var(--content-full);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(1rem, 5vw, 3rem);
+    padding-right: clamp(1rem, 5vw, 3rem);
+  }
+
+  /* Section header block */
+  .section-header {
+    text-align: center;
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  /* Alternating section backgrounds */
+  .section-bg-base    { background-color: var(--bg-base); }
+  .section-bg-surface { background-color: var(--bg-surface); }
+  .section-bg-deep    { background-color: var(--bg-deep); }
+
+  /* Gradient section backgrounds */
+  .section-bg-gradient-down {
+    background: linear-gradient(
+      180deg,
+      var(--bg-deep) 0%,
+      var(--bg-base) 50%,
+      var(--bg-deep) 100%
+    );
+  }
+
+  .section-bg-radial {
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(217, 164, 65, 0.06) 0%, transparent 70%),
+      var(--bg-base);
+  }
+
+  .section-bg-vignette {
+    background:
+      radial-gradient(ellipse 100% 80% at 50% 50%, var(--bg-surface) 0%, var(--bg-deep) 100%);
+  }
+}
+
+/* ------------------------------------------------------------
+   7. DECORATIVE DIVIDERS
+   ------------------------------------------------------------ */
+@layer components {
+  /* Gold line — full width · jewelry sheen */
+  .divider-gold {
+    width: 100%;
+    height: 1px;
+    background: var(--grad-gold-divider);
+    border: none;
+    margin: 0;
+    position: relative;
+  }
+
+  /* Double-line luxury divider */
+  .divider-gold-double {
+    width: 100%;
+    border: none;
+    margin: 0;
+    height: 3px;
+    background:
+      linear-gradient(90deg, transparent, var(--gold-700) 15%, var(--gold-400) 50%, var(--gold-700) 85%, transparent) center top / 100% 1px no-repeat,
+      linear-gradient(90deg, transparent, var(--gold-800) 20%, var(--gold-600) 50%, var(--gold-800) 80%, transparent) center bottom / 60% 1px no-repeat;
+  }
+
+  /* Short ornamental line — bright center peak */
+  .divider-short {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--gold-600) 15%,
+      var(--gold-200) 50%,
+      var(--gold-600) 85%,
+      transparent 100%
+    );
+    margin: var(--space-6) auto;
+    border: none;
+  }
+
+  /* Diamond ornament */
+  .ornament-diamond::before {
+    content: '◆';
+    display: block;
+    text-align: center;
+    color: var(--gold-bright);
+    font-size: 0.6rem;
+    opacity: 0.8;
+    letter-spacing: 0.5em;
+  }
+
+  /* Triple line divider */
+  .divider-triple {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    max-width: 320px;
+    margin: var(--space-8) auto;
+  }
+
+  .divider-triple::before,
+  .divider-triple::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim));
+  }
+
+  .divider-triple::after {
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+
+  /* Vertical side accent */
+  .accent-bar-left {
+    border-left: 2px solid var(--gold-bright);
+    padding-left: var(--space-4);
+  }
+
+  .accent-bar-left-green {
+    border-left: 2px solid var(--green-base);
+    padding-left: var(--space-4);
+  }
+
+  /* Section separator with symbol */
+  .section-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
+  }
+
+  .section-ornament::before,
+  .section-ornament::after {
+    content: '';
+    width: 60px;
+    height: 1px;
+    background: var(--border-base);
+  }
+}
+
+/* ------------------------------------------------------------
+   8. GLOW EFFECTS
+   ------------------------------------------------------------ */
+@layer utilities {
+  /* Ambient orbs — place as aria-hidden decorative divs */
+  .glow-gold-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      var(--gold-300) 0%,
+      var(--gold-500) 35%,
+      transparent 70%
+    );
+    filter: blur(80px);
+    pointer-events: none;
+    opacity: 0.20;
+  }
+
+  .glow-green-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--green-light) 0%, transparent 70%);
+    filter: blur(100px);
+    pointer-events: none;
+    opacity: 0.14;
+  }
+
+  .glow-warm-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      #D4783A 0%,
+      #8B4A1A 40%,
+      transparent 70%
+    );
+    filter: blur(120px);
+    pointer-events: none;
+    opacity: 0.13;
+  }
+
+  /* Deep blue ambient — background depth */
+  .glow-depth-orb {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(28, 59, 90, 0.8) 0%,
+      transparent 70%
+    );
+    filter: blur(60px);
+    pointer-events: none;
+    opacity: 0.9;
+  }
+
+  /* Text glows */
+  .glow-text-gold {
+    text-shadow:
+      0 0 20px rgba(217, 164, 65, 0.5),
+      0 0 60px rgba(217, 164, 65, 0.25);
+  }
+
+  .glow-text-soft {
+    text-shadow: 0 0 30px rgba(244, 232, 213, 0.2);
+  }
+
+  /* Element glows */
+  .glow-gold {
+    box-shadow: var(--shadow-gold-md);
+  }
+
+  .glow-gold-strong {
+    box-shadow: var(--shadow-gold-lg);
+  }
+
+  .glow-gold-xl {
+    box-shadow: var(--shadow-gold-xl);
+  }
+
+  /* Halo — radial glow centered under element */
+  .halo-gold::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 40px;
+    background: var(--gold-bright);
+    filter: blur(32px);
+    opacity: 0.3;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  /* Candlelight flicker — subtle pulse */
+  .flicker {
+    animation: candleFlicker 4s ease-in-out infinite;
+  }
+
+  .flicker-slow {
+    animation: candleFlicker 7s ease-in-out infinite;
+  }
+}
+
+/* ------------------------------------------------------------
+   9. SHADOW SYSTEM (utility classes)
+   ------------------------------------------------------------ */
+@layer utilities {
+  .shadow-gold-sm  { box-shadow: var(--shadow-gold-sm); }
+  .shadow-gold-md  { box-shadow: var(--shadow-gold-md); }
+  .shadow-gold-lg  { box-shadow: var(--shadow-gold-lg); }
+  .shadow-gold-xl  { box-shadow: var(--shadow-gold-xl); }
+  .shadow-deep     { box-shadow: var(--shadow-deep); }
+  .shadow-inset-gold { box-shadow: var(--shadow-inset); }
+}
+
+/* ------------------------------------------------------------
+   10. BORDER STYLES
+   ------------------------------------------------------------ */
+@layer utilities {
+  .border-gold-subtle { border: 1px solid var(--border-subtle); }
+  .border-gold-base   { border: 1px solid var(--border-base); }
+  .border-gold-strong { border: 1px solid var(--border-strong); }
+  .border-green       { border: 1px solid var(--border-green); }
+
+  /* Top-only border line */
+  .border-top-gold {
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .border-bottom-gold {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  /* Gradient border via box-shadow trick */
+  .border-gradient-gold {
+    position: relative;
+  }
+
+  .border-gradient-gold::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      var(--gold-bright),
+      transparent 40%,
+      transparent 60%,
+      var(--gold-base)
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+}
+
+/* ------------------------------------------------------------
+   11. BACKGROUND PATTERNS
+   ------------------------------------------------------------ */
+@layer utilities {
+  /* Subtle dot grid — sacred geometry feel */
+  .pattern-dots {
+    background-image: radial-gradient(
+      circle,
+      rgba(217, 164, 65, 0.08) 1px,
+      transparent 1px
+    );
+    background-size: 32px 32px;
+  }
+
+  /* Fine diagonal lines — woven fabric / ancestral cloth */
+  .pattern-weave {
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(217, 164, 65, 0.03) 0px,
+      rgba(217, 164, 65, 0.03) 1px,
+      transparent 1px,
+      transparent 8px
+    );
+  }
+
+  /* Horizontal fine lines — manuscript / sacred text */
+  .pattern-lines {
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(217, 164, 65, 0.04) 0px,
+      rgba(217, 164, 65, 0.04) 1px,
+      transparent 1px,
+      transparent 40px
+    );
+  }
+
+  /* Radial vignette overlay — cinematic depth */
+  .vignette {
+    position: relative;
+  }
+
+  .vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 100% 100% at 50% 50%,
+      transparent 40%,
+      rgba(8, 24, 39, 0.6) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Top fade — blends into section above */
+  .fade-top {
+    mask-image: linear-gradient(to bottom, transparent 0%, black 15%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%);
+  }
+
+  /* Bottom fade */
+  .fade-bottom {
+    mask-image: linear-gradient(to top, transparent 0%, black 15%);
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, black 15%);
+  }
+}
+
+/* ------------------------------------------------------------
+   12. BADGE / LABEL SYSTEM
+   ------------------------------------------------------------ */
+@layer components {
+  /* Eyebrow badge above headings */
+  .badge-ritual {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.3rem 1rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-base);
+    background: rgba(217, 164, 65, 0.07);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-gold);
+  }
+
+  /* Green variant */
+  .badge-verde {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.3rem 1rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-green);
+    background: rgba(53, 94, 59, 0.12);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green-light);
+  }
+}
+
+/* ------------------------------------------------------------
+   13. ANIMATIONS & KEYFRAMES
+   ------------------------------------------------------------ */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn var(--duration-slow) var(--ease-sacred) both;
+  }
+
+  .animate-fade-up {
+    animation: fadeUp var(--duration-slow) var(--ease-sacred) both;
+  }
+
+  .animate-fade-up-slow {
+    animation: fadeUp var(--duration-xslow) var(--ease-sacred) both;
+  }
+
+  .animate-glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+
+  .animate-glow-pulse-slow {
+    animation: glowPulse 6s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: floatY 5s ease-in-out infinite;
+  }
+
+  /* Stagger helpers */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-700 { animation-delay: 700ms; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.15; }
+  50%       { opacity: 0.30; }
+}
+
+@keyframes candleFlicker {
+  0%, 100% { opacity: 1;    transform: scale(1); }
+  25%       { opacity: 0.92; transform: scale(0.99); }
+  50%       { opacity: 0.97; transform: scale(1.005); }
+  75%       { opacity: 0.88; transform: scale(0.995); }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes beamDrift {
+  0%, 100% { opacity: 0.03; transform: rotate(-8deg) translateX(-3px); }
+  50%       { opacity: 0.07; transform: rotate(-8deg) translateX(3px); }
+}
+
+@keyframes beamDriftSlow {
+  0%, 100% { opacity: 0.02; transform: rotate(15deg) translateX(-5px); }
+  50%       { opacity: 0.05; transform: rotate(15deg) translateX(5px); }
+}
+
+@keyframes grainShift {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-2%, -3%); }
+  20%  { transform: translate(3%, 1%); }
+  30%  { transform: translate(-1%, 4%); }
+  40%  { transform: translate(4%, -2%); }
+  50%  { transform: translate(-3%, 2%); }
+  60%  { transform: translate(1%, -4%); }
+  70%  { transform: translate(-4%, 3%); }
+  80%  { transform: translate(2%, -1%); }
+  90%  { transform: translate(-1%, -3%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ------------------------------------------------------------
+   14. CINEMATIC ATMOSPHERE SYSTEM
+   Film grain · Light beams · Vignette · Depth
+   ------------------------------------------------------------ */
+
+/* ── Film Grain ─────────────────────────────────────────────
+   Apply .grain to any section or the root element.
+   The ::after pseudo-element overlays animated SVG noise.
+   Keeps the atmosphere without adding extra DOM nodes.
+   ─────────────────────────────────────────────────────────── */
+@layer utilities {
+  .grain {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: -50%;          /* oversized so grain covers when it shifts */
+    width: 200%;
+    height: 200%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-size: 220px 220px;
+    background-repeat: repeat;
+    opacity: 0.028;
+    pointer-events: none;
+    z-index: 100;
+    mix-blend-mode: overlay;
+    animation: grainShift 0.6s steps(1) infinite;
+  }
+
+  /* Coarser grain for hero / full bleed sections */
+  .grain-coarse::after {
+    background-size: 160px 160px;
+    opacity: 0.038;
+    animation-duration: 0.4s;
+  }
+
+  /* Very fine grain for subtle sections */
+  .grain-fine::after {
+    background-size: 300px 300px;
+    opacity: 0.018;
+    animation-duration: 0.8s;
+  }
+}
+
+/* ── Light Beams ────────────────────────────────────────────
+   Pseudo-element light shafts.
+   Use .beam-wrap on a positioned container;
+   .beam-* are absolute overlays.
+   ─────────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Container — must be position:relative + overflow:hidden */
+  .beam-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Primary beam — centered, angled left */
+  .beam-primary::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%) rotate(-8deg);
+    width: 35%;
+    height: 140%;
+    background: linear-gradient(
+      180deg,
+      rgba(249, 228, 168, 0.0)  0%,
+      rgba(249, 228, 168, 0.06) 20%,
+      rgba(232, 176, 64,  0.10) 45%,
+      rgba(217, 164, 65,  0.07) 65%,
+      rgba(195, 139, 42,  0.03) 85%,
+      rgba(249, 228, 168, 0.0)  100%
+    );
+    filter: blur(18px);
+    pointer-events: none;
+    z-index: 1;
+    animation: beamDrift 8s ease-in-out infinite;
+  }
+
+  /* Secondary beam — offset right */
+  .beam-primary::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: 15%;
+    transform: rotate(15deg);
+    width: 20%;
+    height: 120%;
+    background: linear-gradient(
+      180deg,
+      rgba(249, 228, 168, 0.0)  0%,
+      rgba(195, 139, 42,  0.04) 30%,
+      rgba(217, 164, 65,  0.06) 50%,
+      rgba(195, 139, 42,  0.03) 75%,
+      rgba(249, 228, 168, 0.0)  100%
+    );
+    filter: blur(24px);
+    pointer-events: none;
+    z-index: 1;
+    animation: beamDriftSlow 12s ease-in-out infinite 3s;
+  }
+
+  /* Narrow beam — tight shaft */
+  .beam-narrow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 45%;
+    transform: rotate(-5deg);
+    width: 8%;
+    height: 100%;
+    background: linear-gradient(
+      180deg,
+      rgba(249, 228, 168, 0.0)  0%,
+      rgba(249, 228, 168, 0.08) 25%,
+      rgba(249, 228, 168, 0.12) 50%,
+      rgba(249, 228, 168, 0.05) 80%,
+      rgba(249, 228, 168, 0.0)  100%
+    );
+    filter: blur(10px);
+    pointer-events: none;
+    z-index: 1;
+    animation: beamDrift 10s ease-in-out infinite 1s;
+  }
+
+  /* Side beam — enters from left edge */
+  .beam-side::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: -5%;
+    transform: rotate(20deg);
+    width: 40%;
+    height: 80%;
+    background: linear-gradient(
+      90deg,
+      rgba(195, 139, 42,  0.06) 0%,
+      rgba(217, 164, 65,  0.04) 40%,
+      rgba(249, 228, 168, 0.02) 70%,
+      transparent 100%
+    );
+    filter: blur(30px);
+    pointer-events: none;
+    z-index: 1;
+    animation: beamDriftSlow 14s ease-in-out infinite;
+  }
+}
+
+/* ── Vignette System ─────────────────────────────────────────
+   Apply to section containers for cinematic edge darkening.
+   ─────────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Standard vignette — subtle edges */
+  .vignette {
+    position: relative;
+  }
+
+  .vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 100% 100% at 50% 50%,
+      transparent 35%,
+      rgba(8, 24, 39, 0.45) 70%,
+      rgba(4, 12, 20, 0.75) 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Strong vignette — cinematic, deep corners */
+  .vignette-strong::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 90% 90% at 50% 50%,
+      transparent 25%,
+      rgba(8, 24, 39, 0.55) 55%,
+      rgba(4, 12, 20, 0.88) 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Top vignette — darkens only the top edge (for sections below nav) */
+  .vignette-top::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(4, 12, 20, 0.60) 0%,
+      rgba(4, 12, 20, 0.20) 15%,
+      transparent 35%
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Bottom vignette — fades section into the next */
+  .vignette-bottom::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      0deg,
+      rgba(8, 24, 39, 0.70) 0%,
+      rgba(8, 24, 39, 0.20) 20%,
+      transparent 40%
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+}
+
+/* ── Depth Layers ────────────────────────────────────────────
+   Background gradient recipes for cinematic section depth.
+   These combine with orb glows and patterns.
+   ─────────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Warm candlelight source — top center */
+  .depth-candle-top {
+    background:
+      radial-gradient(ellipse 70% 50% at 50% -5%,
+        rgba(195, 139, 42, 0.12) 0%,
+        rgba(122, 82, 24, 0.06) 40%,
+        transparent 70%
+      ),
+      var(--bg-deep);
+  }
+
+  /* Warm candlelight source — bottom center (section transitions) */
+  .depth-candle-bottom {
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 105%,
+        rgba(195, 139, 42, 0.10) 0%,
+        transparent 65%
+      ),
+      var(--bg-base);
+  }
+
+  /* Sacred center glow — concentrated warm light at center */
+  .depth-sacred-center {
+    background:
+      radial-gradient(ellipse 55% 45% at 50% 50%,
+        rgba(195, 139, 42, 0.08) 0%,
+        rgba(53, 94, 59, 0.04)  50%,
+        transparent 75%
+      ),
+      var(--bg-surface);
+  }
+
+  /* Dual source — warm left, cool right (cinematic split) */
+  .depth-cinematic-split {
+    background:
+      radial-gradient(ellipse 50% 80% at 0% 50%,
+        rgba(195, 139, 42, 0.08) 0%,
+        transparent 60%
+      ),
+      radial-gradient(ellipse 50% 80% at 100% 50%,
+        rgba(23, 52, 80, 0.40) 0%,
+        transparent 60%
+      ),
+      var(--bg-base);
+  }
+
+  /* Full atmospheric recipe — recommended hero background */
+  .depth-atmosphere {
+    background:
+      /* warm candle source top-center */
+      radial-gradient(ellipse 80% 60% at 50% -10%,
+        rgba(195, 139, 42, 0.10) 0%,
+        transparent 65%
+      ),
+      /* green nature source bottom-left */
+      radial-gradient(ellipse 60% 50% at -10% 110%,
+        rgba(53, 94, 59, 0.08) 0%,
+        transparent 65%
+      ),
+      /* deep navy fill */
+      var(--bg-deep);
+  }
+}
+
