@@ -10,12 +10,15 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // ── Dados do formulário ────────────────────────────────────────────────────
-$name   = htmlspecialchars(strip_tags(trim($_POST['nome']   ?? $_POST['booking_name']  ?? '')));
-$phone  = htmlspecialchars(strip_tags(trim($_POST['fone']   ?? $_POST['booking_phone'] ?? '')));
-$email  = htmlspecialchars(strip_tags(trim($_POST['email']  ?? $_POST['booking_email'] ?? '')));
-$city   = htmlspecialchars(strip_tags(trim($_POST['cidade'] ?? $_POST['booking_city']  ?? '')));
-$hear   = htmlspecialchars(strip_tags(trim($_POST['escuta'] ?? $_POST['hearing_loss']  ?? '')));
-$origin = htmlspecialchars(strip_tags(trim($_POST['origin'] ?? 'site')));
+$name     = htmlspecialchars(strip_tags(trim($_POST['booking_name']     ?? '')));
+$phone    = htmlspecialchars(strip_tags(trim($_POST['booking_phone']    ?? '')));
+$email    = htmlspecialchars(strip_tags(trim($_POST['booking_email']    ?? '')));
+$city     = htmlspecialchars(strip_tags(trim($_POST['booking_city']     ?? '')));
+$presence = htmlspecialchars(strip_tags(trim($_POST['booking_presence'] ?? '')));
+$audiology= htmlspecialchars(strip_tags(trim($_POST['booking_audiometry']?? '')));
+$devices  = htmlspecialchars(strip_tags(trim($_POST['booking_devices']  ?? '')));
+$symptom  = htmlspecialchars(strip_tags(trim($_POST['booking_symptom']  ?? '')));
+$origin   = htmlspecialchars(strip_tags(trim($_POST['origin']           ?? 'site')));
 
 // ── Configuração SMTP ──────────────────────────────────────────────────────
 $smtp_host = 'smtp.hostinger.com';
@@ -32,12 +35,15 @@ $subject     = '=?UTF-8?B?' . base64_encode($subject_raw) . '?=';
 
 $body  = "Novo lead recebido pelo site\n";
 $body .= "================================\n";
-$body .= "Nome:      $name\n";
-$body .= "Telefone:  $phone\n";
-$body .= "E-mail:    $email\n";
-$body .= "Cidade:    $city\n";
-if ($hear) $body .= "Dificuldade: $hear\n";
-$body .= "Formulário: $origin\n";
+$body .= "Nome:        $name\n";
+$body .= "Telefone:    $phone\n";
+$body .= "E-mail:      $email\n";
+$body .= "Cidade:      $city\n";
+if ($presence)  $body .= "Presencial:  $presence\n";
+if ($audiology) $body .= "Audiometria: $audiology\n";
+if ($devices)   $body .= "Aparelhos:   $devices\n";
+if ($symptom)   $body .= "Sintoma:     $symptom\n";
+$body .= "Formulário:  $origin\n";
 $body .= "================================\n";
 $body .= "Data: " . date('d/m/Y H:i') . "\n";
 
