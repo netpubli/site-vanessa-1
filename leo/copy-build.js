@@ -38,4 +38,12 @@ for (const item of fs.readdirSync(distDir)) {
     console.log(`copy: ${item}`);
   }
 }
+// Copy leo/img/ (hero image and other direct-served images)
+const imgSrc = path.join(__dirname, 'img');
+const imgDst = path.join(outDir, 'img');
+if (fs.existsSync(imgSrc)) {
+  console.log('copy dir: img/ (leo/img)');
+  copyDir(imgSrc, imgDst);
+}
+
 console.log('\nBuild copiado para leo/build/');
