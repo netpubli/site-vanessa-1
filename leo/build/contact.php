@@ -16,7 +16,7 @@ $city   = htmlspecialchars(strip_tags(trim($_POST['cidade'] ?? $_POST['booking_c
 $hear   = htmlspecialchars(strip_tags(trim($_POST['escuta'] ?? $_POST['hearing_loss']  ?? '')));
 $origin = htmlspecialchars(strip_tags(trim($_POST['origin'] ?? 'site')));
 
-$to      = 'leonardo@centroauditivomacae.com.br';
+$to      = 'loja00004@gmail.com';
 $subject = '=?UTF-8?B?' . base64_encode('Novo lead - Centro Auditivo Macaé') . '?=';
 
 $body  = "Novo lead recebido pelo site\n";
