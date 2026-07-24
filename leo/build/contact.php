@@ -90,4 +90,26 @@ function smtp_send($host, $port, $user, $pass, $from_addr, $from_name, $to, $sub
 
 $sent = smtp_send($smtp_host, $smtp_port, $smtp_user, $smtp_pass, $from_addr, $from_name, $to_addr, $subject, $body);
 
+// ── Webhook ────────────────────────────────────────────────────────────────
+$webhook_payload = json_encode([
+    'nome'        => $name,
+    'telefone'    => $phone,
+    'email'       => $email,
+    'cidade'      => $city,
+    'presencial'  => $presence,
+    'audiometria' => $audiology,
+    'aparelhos'   => $devices,
+    'sintoma'     => $symptom,
+    'formulario'  => $origin,
+    'data'        => date('d/m/Y H:i'),
+]);
+$ctx = stream_context_create(['http' => [
+    'method'        => 'POST',
+    'header'        => "Content-Type: application/json\r\nContent-Length: " . strlen($webhook_payload),
+    'content'       => $webhook_payload,
+    'timeout'       => 5,
+    'ignore_errors' => true,
+]]);
+@file_get_contents('https://automation.opscap.collieassociados.com/webhook/20a0f7ff-ecc3-44e4-9d4a-c8009acda968', false, $ctx);
+
 echo json_encode(['ok' => (bool)$sent]);
