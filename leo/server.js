@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, 'build');
-const PREFIX = '/lptemporaria/2';
+const PREFIX = '';
 const PORT = 8090;
 
 const MIME = {
@@ -23,16 +23,9 @@ const MIME = {
 http.createServer((req, res) => {
   let url = req.url.split('?')[0];
 
-  if (url === '/' || url === PREFIX || url === PREFIX + '/') {
-    url = PREFIX + '/index.html';
-  }
+  if (url === '/') url = '/index.html';
 
-  if (!url.startsWith(PREFIX)) {
-    res.writeHead(302, { Location: PREFIX + '/' });
-    return res.end();
-  }
-
-  const rel  = decodeURIComponent(url.slice(PREFIX.length) || '/index.html');
+  const rel  = decodeURIComponent(url || '/index.html');
   const file = path.join(ROOT, rel);
 
   fs.readFile(file, (err, data) => {

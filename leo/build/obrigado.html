@@ -8,7 +8,6 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" /></noscript>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
       font-family: 'Poppins', sans-serif;
       background: #fff;
@@ -19,7 +18,6 @@
       justify-content: center;
       padding: 2rem 1.25rem;
     }
-
     .page {
       width: 100%;
       max-width: 600px;
@@ -29,47 +27,18 @@
       gap: 2rem;
       text-align: center;
     }
-
-    .logo img {
-      height: 52px;
-      width: auto;
-    }
-
+    .logo img { height: 52px; width: auto; }
     .hero-img {
       width: 100%;
       border-radius: 1.25rem;
       overflow: hidden;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.15);
     }
-
-    .hero-img img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .content {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-
-    .content h1 {
-      font-size: clamp(1.5rem, 5vw, 2.2rem);
-      font-weight: 700;
-      line-height: 1.25;
-    }
-
+    .hero-img img { width: 100%; height: auto; display: block; }
+    .content { display: flex; flex-direction: column; gap: 0.75rem; }
+    .content h1 { font-size: clamp(1.5rem, 5vw, 2.2rem); font-weight: 700; line-height: 1.25; }
     .content h1 span { color: #e53935; }
-
-    .content p {
-      font-size: 1rem;
-      color: #444;
-      line-height: 1.65;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
+    .content p { font-size: 1rem; color: #444; line-height: 1.65; max-width: 480px; margin: 0 auto; }
     .btn-wa {
       display: inline-flex;
       align-items: center;
@@ -82,37 +51,26 @@
       padding: 1rem 2.25rem;
       border-radius: 999px;
       text-decoration: none;
-      box-shadow: 0 8px 24px rgba(37,211,102,0.35);
+      box-shadow: 0 8px 24px rgba(37,211,102,0.3);
       transition: background 0.2s, transform 0.15s;
     }
-
     .btn-wa:hover { background: #1ebe5d; transform: translateY(-2px); }
-
     .btn-wa svg { width: 26px; height: 26px; flex-shrink: 0; }
-
-    .note {
-      font-size: 0.78rem;
-      color: #999;
-      margin-top: -0.5rem;
-    }
+    .note { font-size: 0.78rem; color: #999; margin-top: -0.5rem; }
   </style>
 </head>
 <body>
   <div class="page">
-
     <div class="logo">
-      <img src="/lptemporaria/2/assets/logo-macae-URlbeof7.webp" alt="Centro Auditivo Macaé" />
+      <img src="/assets/logo-macae-URlbeof7.webp" alt="Centro Auditivo Macaé" />
     </div>
-
     <div class="hero-img">
-      <img src="/lptemporaria/2/img/header.jpeg" alt="Centro Auditivo Macaé" width="1717" height="916" />
+      <img src="/img/header.jpeg" alt="Centro Auditivo Macaé" width="1717" height="916" />
     </div>
-
     <div class="content">
       <h1>Recebemos o seu contato!<br /><span>Você está a um passo de ouvir melhor.</span></h1>
       <p>Clique abaixo para confirmar seu agendamento pelo WhatsApp e garantir seu teste auditivo gratuito de 7 dias.</p>
     </div>
-
     <a class="btn-wa" id="btnWa"
        href="https://wa.me/5522992458704?text=Ol%C3%A1%21+Gostaria+de+agendar+minha+avalia%C3%A7%C3%A3o+gratuita."
        target="_blank" rel="noopener noreferrer">
@@ -121,19 +79,12 @@
       </svg>
       Confirmar no WhatsApp
     </a>
-
     <p class="note">Sem compromisso. Seus dados são usados apenas para este atendimento.</p>
-
   </div>
-
   <script>
-    // Usar URL do WhatsApp salva pelo formulário (inclui nome e dados do paciente)
     try {
       var waUrl = sessionStorage.getItem('waUrl');
-      if (waUrl) {
-        document.getElementById('btnWa').href = waUrl;
-        sessionStorage.removeItem('waUrl');
-      }
+      if (waUrl) { document.getElementById('btnWa').href = waUrl; sessionStorage.removeItem('waUrl'); }
     } catch (e) {}
   </script>
 </body>
