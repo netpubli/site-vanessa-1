@@ -1,0 +1,12 @@
+{
+  "name": "centro-auditivo-macae-dist",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd source && npm run build && cd .. && node copy-build.js && node optimize-images.js && node apply-perf.js",
+    "start": "node server.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.3"
+  }
+}

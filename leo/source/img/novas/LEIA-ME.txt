@@ -1,0 +1,54 @@
+========================================================
+IMAGENS ALTERADAS PELO CLIENTE (Leonardo) - Centro Auditivo Macae
+========================================================
+
+Estas sao as imagens que eu substitui na versao publicada.
+Para cada arquivo, abaixo esta ONDE ele aparece no site, para
+voce localizar e aplicar no projeto-fonte.
+
+O nome do arquivo foi mantido IGUAL ao do build atual (com o
+codigo hash), justamente para facilitar a substituicao.
+
+--------------------------------------------------------
+TOPO / COMPARTILHAMENTO
+--------------------------------------------------------
+header2-Dw8DepaN.jpg
+   -> Imagem grande do topo (secao hero "A tecnologia que transforma...")
+   -> Tambem e a imagem de compartilhamento (og:image) em redes sociais.
+
+--------------------------------------------------------
+SECAO "COMO FUNCIONA" (passos 01 a 04)
+--------------------------------------------------------
+01-B6w3IpFl.png
+   -> Passo 01 - "Atendente na recepcao da clinica"
+02-CLmW_58L.png
+   -> Passo 02 - "Fonoaudiologa realizando avaliacao auditiva"
+03-B9OkX89z.png
+   -> Passo 03 - "Fonoaudiologa ajustando o aparelho"
+04-BZd90ug4.jpg
+   -> Passo 04 (card escuro) - "Familia reunida sorrindo"
+
+--------------------------------------------------------
+SECAO DE BENEFICIOS (mosaico de cards)
+--------------------------------------------------------
+101a-BM519tuc.jpg
+   -> Card principal - "Pessoa recebendo um aparelho Signia"
+101-CU0LQMAM.jpg
+   -> Card 01 - "Aparelho auditivo Signia"
+102-lW_ARYID.jpg
+   -> Card 02 - "Aparelho conectado a um computador"
+103-B8mcEKWf.jpg
+   -> Card 03 - "Aparelho em uma casa iluminada"
+
+--------------------------------------------------------
+SECAO "INTELIGENCIA ARTIFICIAL"
+--------------------------------------------------------
+c2-BwZFiBqN.png
+   -> Secao de agendamento - "Idosa sorrindo usando tablet em casa"
+l2-wRdRxyPx.png
+   -> Bloco "Inteligencia Artificial" - "Especialista e aparelhos Signia"
+
+========================================================
+OBS: as demais imagens do site NAO foram alteradas.
+Alterei apenas textos? NAO - somente imagens (11 arquivos acima).
+========================================================

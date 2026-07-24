@@ -4,7 +4,11 @@ const path = require('path');
 
 const htmlPath = path.join(__dirname, 'index.html');
 const assetsDir = path.join(__dirname, 'assets');
-const cssPath = path.join(assetsDir, 'index-BzrxqtIA.css');
+
+// Auto-detect the main CSS file in assets/
+const cssFiles = fs.readdirSync(assetsDir).filter(f => f.match(/^index-.*\.css$/));
+const cssPath = cssFiles.length > 0 ? path.join(assetsDir, cssFiles[0]) : null;
+if (cssPath) console.log(`CSS: ${cssFiles[0]}`);
 
 let html = fs.readFileSync(htmlPath, 'utf8');
 
@@ -58,7 +62,6 @@ if (!html.includes('rel="preload" as="image"')) {
   const heroMatch = html.match(/class="hero-media"[^>]*>[\s\S]*?src="([^"]+\.(jpg|jpeg|png|webp))"/i);
   if (heroMatch) {
     let heroSrc = heroMatch[1];
-    // prefer WebP version
     const webpSrc = heroSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
     const webpFile = path.join(__dirname, webpSrc.replace('/lptemporaria/2/', ''));
     if (fs.existsSync(webpFile)) heroSrc = webpSrc;
@@ -77,7 +80,7 @@ fs.writeFileSync(htmlPath, html, 'utf8');
 console.log('\nindex.html written.');
 
 // ── 7. Update CSS background images to WebP ──
-if (fs.existsSync(cssPath)) {
+if (cssPath && fs.existsSync(cssPath)) {
   let css = fs.readFileSync(cssPath, 'utf8');
   let cssMod = false;
   css = css.replace(/url\(([^)]+\.(png|jpg|jpeg))\)/gi, (match, src) => {
