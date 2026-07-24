@@ -27,7 +27,7 @@ $smtp_user = 'envio@centroauditivomacae.com.br';
 $smtp_pass = '|v05HLDr!>Q';
 $from_name = 'Centro Auditivo Macaé';
 $from_addr = 'envio@centroauditivomacae.com.br';
-$to_addr   = 'loja00004@gmail.com';
+$to_addr   = 'leonardo@centroauditivomacae.com.br';
 
 // ── Mensagem ───────────────────────────────────────────────────────────────
 $subject_raw = 'Novo lead - Centro Auditivo Macaé';
