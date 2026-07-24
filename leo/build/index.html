@@ -1430,6 +1430,20 @@
     </div>
 
   <script>
+  // Interceptar abertura do WhatsApp → redirecionar para pagina de obrigado
+  (function () {
+    var _open = window.open;
+    window.open = function (url, target, features) {
+      if (typeof url === 'string' && url.indexOf('wa.me') !== -1) {
+        try { sessionStorage.setItem('waUrl', url); } catch (e) {}
+        window.location.href = '/lptemporaria/2/obrigado.html';
+        return null;
+      }
+      return _open.apply(this, arguments);
+    };
+  })();
+  </script>
+  <script>
   (function () {
     function digitsOnly(v) { return v.replace(/\D/g, ''); }
 
