@@ -156,7 +156,7 @@ const injectedScripts = `
           if (!validateFields(this)) { e.preventDefault(); return; }
           var fd = new FormData(this);
           fd.append('origin', this.hasAttribute('data-booking-form') ? 'agendamento' : 'horario');
-          fetch('/contact.php', { method: 'POST', body: fd }).catch(function () {});
+          fetch('/contact.php', { method: 'POST', body: fd, keepalive: true }).catch(function () {});
         });
       });
     });
