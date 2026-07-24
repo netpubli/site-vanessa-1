@@ -152,7 +152,12 @@ const injectedScripts = `
         }, true);
       });
       document.querySelectorAll('[data-schedule-form], [data-booking-form]').forEach(function (form) {
-        form.addEventListener('submit', function (e) { if (!validateFields(this)) e.preventDefault(); });
+        form.addEventListener('submit', function (e) {
+          if (!validateFields(this)) { e.preventDefault(); return; }
+          var fd = new FormData(this);
+          fd.append('origin', this.hasAttribute('data-booking-form') ? 'agendamento' : 'horario');
+          fetch('/contact.php', { method: 'POST', body: fd }).catch(function () {});
+        });
       });
     });
   })();
