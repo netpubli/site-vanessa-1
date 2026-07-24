@@ -2,8 +2,9 @@ const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 
-const assetsDir = path.join(__dirname, 'assets');
-const imgDir = path.join(__dirname, 'img');
+const buildDir = path.join(__dirname, 'build');
+const assetsDir = path.join(buildDir, 'assets');
+const imgDir = path.join(buildDir, 'img');
 
 const targetExtensions = ['.jpg', '.jpeg', '.png'];
 
@@ -29,6 +30,7 @@ async function convertToWebP(filePath) {
 }
 
 async function processDir(dir) {
+  if (!fs.existsSync(dir)) return;
   const files = fs.readdirSync(dir);
   for (const file of files) {
     const filePath = path.join(dir, file);
@@ -44,9 +46,9 @@ async function processDir(dir) {
 }
 
 (async () => {
-  console.log('=== assets/ ===');
+  console.log('=== build/assets/ ===');
   await processDir(assetsDir);
-  console.log('\n=== img/ ===');
+  console.log('\n=== build/img/ ===');
   await processDir(imgDir);
   console.log('\nDone.');
 })();

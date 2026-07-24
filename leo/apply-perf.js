@@ -2,10 +2,11 @@ const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 
-const htmlPath = path.join(__dirname, 'index.html');
-const assetsDir = path.join(__dirname, 'assets');
+const buildDir = path.join(__dirname, 'build');
+const htmlPath = path.join(buildDir, 'index.html');
+const assetsDir = path.join(buildDir, 'assets');
 
-// Auto-detect the main CSS file in assets/
+// Auto-detect the main CSS file in build/assets/
 const cssFiles = fs.readdirSync(assetsDir).filter(f => f.match(/^index-.*\.css$/));
 const cssPath = cssFiles.length > 0 ? path.join(assetsDir, cssFiles[0]) : null;
 if (cssPath) console.log(`CSS: ${cssFiles[0]}`);
@@ -29,7 +30,7 @@ if (b64Match) {
 // ── 2. Convert all asset img src from JPG/PNG to WebP when WebP exists ──
 html = html.replace(/src="(\/lptemporaria\/2\/assets\/[^"]+\.(jpg|jpeg|png))"/gi, (match, src) => {
   const webpSrc = src.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-  const webpFile = path.join(__dirname, webpSrc.replace('/lptemporaria/2/', ''));
+  const webpFile = path.join(buildDir, webpSrc.replace('/lptemporaria/2/', ''));
   if (fs.existsSync(webpFile)) {
     console.log(`img swap: ${path.basename(src)} → webp`);
     return `src="${webpSrc}"`;
@@ -63,7 +64,7 @@ if (!html.includes('rel="preload" as="image"')) {
   if (heroMatch) {
     let heroSrc = heroMatch[1];
     const webpSrc = heroSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-    const webpFile = path.join(__dirname, webpSrc.replace('/lptemporaria/2/', ''));
+    const webpFile = path.join(buildDir, webpSrc.replace('/lptemporaria/2/', ''));
     if (fs.existsSync(webpFile)) heroSrc = webpSrc;
 
     const preloadTag = `\n    <link rel="preload" as="image" href="${heroSrc}" fetchpriority="high" />`;

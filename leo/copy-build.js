@@ -16,7 +16,16 @@ function copyDir(src, dst) {
 }
 
 const distDir = path.join(__dirname, 'source', 'dist');
-const outDir = __dirname;
+const outDir = path.join(__dirname, 'build');
+
+// Clear build/assets/ to avoid stale files from previous builds
+const assetsOut = path.join(outDir, 'assets');
+if (fs.existsSync(assetsOut)) {
+  fs.rmSync(assetsOut, { recursive: true, force: true });
+  console.log('Cleared build/assets/');
+}
+
+fs.mkdirSync(outDir, { recursive: true });
 
 for (const item of fs.readdirSync(distDir)) {
   const src = path.join(distDir, item);
@@ -29,4 +38,4 @@ for (const item of fs.readdirSync(distDir)) {
     console.log(`copy: ${item}`);
   }
 }
-console.log('\nBuild copiado para leo/');
+console.log('\nBuild copiado para leo/build/');
