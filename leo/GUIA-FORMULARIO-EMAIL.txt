@@ -1,0 +1,290 @@
+========================================================
+  GUIA: FORMULÁRIO HTML → ENVIO DE EMAIL VIA SMTP PHP
+  Baseado no projeto Centro Auditivo Macaé
+========================================================
+
+VISÃO GERAL
+-----------
+O formulário coleta dados do usuário, envia via JavaScript (fetch)
+para um arquivo PHP no servidor, que por sua vez envia o email
+usando SMTP autenticado — sem biblioteca externa.
+
+Fluxo:
+  [Formulário HTML] → [fetch POST /contact.php] → [SMTP Hostinger] → [Email do destinatário]
+
+
+========================================================
+PASSO 1 — CRIAR O FORMULÁRIO HTML
+========================================================
+
+No seu HTML, crie o formulário com os campos desejados.
+Use o atributo "name" em cada campo — o PHP vai ler por esse nome.
+
+Exemplo:
+
+  <form id="meu-form" novalidate>
+    <input type="text"  name="nome"     placeholder="Seu nome"     required />
+    <input type="tel"   name="telefone" placeholder="(22) 99999-9999" required />
+    <input type="email" name="email"    placeholder="voce@email.com" />
+    <select name="cidade">
+      <option value="">Selecione</option>
+      <option>Macaé</option>
+      <option>Rio das Ostras</option>
+    </select>
+    <textarea name="mensagem" rows="4"></textarea>
+    <button type="submit">Enviar</button>
+  </form>
+
+
+========================================================
+PASSO 2 — CRIAR O ARQUIVO contact.php
+========================================================
+
+Crie um arquivo chamado "contact.php" na raiz do site no servidor.
+Esse arquivo recebe os dados do formulário e envia o email via SMTP.
+
+Substitua os valores em CONFIGURAÇÃO SMTP pelos seus dados reais.
+
+---------- contact.php ----------
+
+<?php
+header('Content-Type: application/json; charset=utf-8');
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['ok' => false]);
+    exit;
+}
+
+// ── Ler campos do formulário ──────────────────────────────
+$nome      = htmlspecialchars(strip_tags(trim($_POST['nome']      ?? '')));
+$telefone  = htmlspecialchars(strip_tags(trim($_POST['telefone']  ?? '')));
+$email     = htmlspecialchars(strip_tags(trim($_POST['email']     ?? '')));
+$cidade    = htmlspecialchars(strip_tags(trim($_POST['cidade']    ?? '')));
+$mensagem  = htmlspecialchars(strip_tags(trim($_POST['mensagem']  ?? '')));
+
+// ── CONFIGURAÇÃO SMTP ─────────────────────────────────────
+$smtp_host = 'smtp.hostinger.com';   // host SMTP da Hostinger
+$smtp_port = 465;                    // porta SSL
+$smtp_user = 'envio@seudominio.com'; // email configurado na Hostinger
+$smtp_pass = 'SUA_SENHA_AQUI';       // senha desse email
+$from_addr = 'envio@seudominio.com'; // mesmo email acima
+$from_name = 'Nome do Site';
+$to_addr   = 'destinatario@email.com'; // quem vai receber os leads
+
+// ── Montar mensagem ───────────────────────────────────────
+$subject = '=?UTF-8?B?' . base64_encode('Novo lead pelo site') . '?=';
+
+$body  = "Novo lead recebido\n";
+$body .= "================================\n";
+$body .= "Nome:      $nome\n";
+$body .= "Telefone:  $telefone\n";
+$body .= "E-mail:    $email\n";
+$body .= "Cidade:    $cidade\n";
+$body .= "Mensagem:  $mensagem\n";
+$body .= "================================\n";
+$body .= "Data: " . date('d/m/Y H:i') . "\n";
+
+// ── Função de envio SMTP (sem biblioteca) ─────────────────
+function smtp_send($host, $port, $user, $pass, $from_addr, $from_name, $to, $subject, $body) {
+    $sock = @fsockopen("ssl://$host", $port, $errno, $errstr, 15);
+    if (!$sock) return false;
+
+    $r = function () use ($sock) { return fgets($sock, 512); };
+    $w = function ($s) use ($sock) { fwrite($sock, $s . "\r\n"); };
+
+    $r(); // 220 greeting
+    $w("EHLO " . parse_url("https://$host", PHP_URL_HOST));
+    while (($line = $r()) && substr($line, 3, 1) === '-');
+
+    $w("AUTH LOGIN");
+    $r();
+    $w(base64_encode($user));
+    $r();
+    $w(base64_encode($pass));
+    $auth = trim($r());
+    if (substr($auth, 0, 3) !== '235') { fclose($sock); return false; }
+
+    $w("MAIL FROM:<$from_addr>");
+    $r();
+    $w("RCPT TO:<$to>");
+    $r();
+    $w("DATA");
+    $r();
+
+    $headers  = "From: =?UTF-8?B?" . base64_encode($from_name) . "?= <$from_addr>\r\n";
+    $headers .= "To: $to\r\n";
+    $headers .= "Subject: $subject\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $headers .= "Content-Transfer-Encoding: 8bit\r\n";
+    $w($headers . "\r\n" . $body . "\r\n.");
+
+    $r(); // 250 OK
+    $w("QUIT");
+    fclose($sock);
+    return true;
+}
+
+$sent = smtp_send($smtp_host, $smtp_port, $smtp_user, $smtp_pass, $from_addr, $from_name, $to_addr, $subject, $body);
+
+echo json_encode(['ok' => (bool)$sent]);
+
+---------- fim do contact.php ----------
+
+
+========================================================
+PASSO 3 — ENVIAR OS DADOS VIA JAVASCRIPT (fetch)
+========================================================
+
+No mesmo HTML, adicione este script antes do </body>.
+Ele intercepta o submit do formulário e envia para contact.php.
+
+IMPORTANTE: use "keepalive: true" para que o envio não seja
+cancelado caso a página redirecione logo em seguida.
+
+  <script>
+  document.getElementById('meu-form').addEventListener('submit', function (e) {
+    e.preventDefault(); // evita recarregar a página
+
+    var fd = new FormData(this);
+    fetch('/contact.php', {
+      method: 'POST',
+      body: fd,
+      keepalive: true   // garante envio mesmo se a página navegar
+    }).catch(function () {});
+
+    // Redirecionar após envio (opcional)
+    window.location.href = '/obrigado.html';
+  });
+  </script>
+
+
+========================================================
+PASSO 4 — CRIAR PÁGINA DE TESTE SMTP (opcional)
+========================================================
+
+Para confirmar que o SMTP está funcionando antes de testar
+com o formulário, crie este arquivo no servidor:
+
+---------- teste-email.php ----------
+
+<?php
+$smtp_host = 'smtp.hostinger.com';
+$smtp_port = 465;
+$smtp_user = 'envio@seudominio.com';
+$smtp_pass = 'SUA_SENHA_AQUI';
+$from_addr = 'envio@seudominio.com';
+$to_addr   = 'destinatario@email.com';
+
+$log = [];
+$sock = @fsockopen("ssl://$smtp_host", $smtp_port, $errno, $errstr, 15);
+if (!$sock) die("ERRO ao conectar: [$errno] $errstr");
+
+$r = function () use ($sock, &$log) { $l = fgets($sock, 512); $log[] = "S: ".trim($l); return $l; };
+$w = function ($s) use ($sock, &$log) { $log[] = "C: $s"; fwrite($sock, $s."\r\n"); };
+
+$r();
+$w("EHLO seudominio.com");
+while (($line = $r()) && substr($line, 3, 1) === '-');
+$w("AUTH LOGIN"); $r();
+$w(base64_encode($smtp_user)); $r();
+$w(base64_encode($smtp_pass));
+$auth = trim($r());
+
+if (substr($auth, 0, 3) !== '235') {
+    echo "<pre>FALHA:\n".implode("\n",$log)."</pre>"; fclose($sock); exit;
+}
+
+$w("MAIL FROM:<$from_addr>"); $r();
+$w("RCPT TO:<$to_addr>"); $r();
+$w("DATA"); $r();
+$w("From: $from_addr\r\nTo: $to_addr\r\nSubject: Teste SMTP\r\n\r\nFuncionando! ".date('d/m/Y H:i')."\r\n.");
+$result = trim($r());
+$w("QUIT"); fclose($sock);
+
+echo "<pre>".implode("\n",$log)."\n\n";
+echo substr($result,0,3)==='250' ? "✅ EMAIL ENVIADO COM SUCESSO!" : "❌ ERRO: $result";
+echo "</pre>";
+
+---------- fim do teste-email.php ----------
+
+Acesse: https://seusite.com.br/teste-email.php
+⚠️  APAGUE esse arquivo do servidor após o teste — ele expõe suas credenciais!
+
+
+========================================================
+PASSO 5 — SUBIR OS ARQUIVOS NO SERVIDOR
+========================================================
+
+Via FTP ou Gerenciador de Arquivos do painel da Hostinger,
+suba os arquivos para a pasta raiz do site (public_html):
+
+  ✅ contact.php
+  ✅ obrigado.html  (se quiser redirecionar após o envio)
+  ✅ teste-email.php  (apenas para teste, apagar depois)
+
+Depois acesse /teste-email.php para validar, depois teste
+preenchendo o formulário no site e verifique o email.
+
+
+========================================================
+CONFIGURAÇÕES SMTP POR PROVEDOR
+========================================================
+
+Hostinger:
+  Host: smtp.hostinger.com
+  Porta: 465 (SSL)  ou  587 (TLS)
+  Usuário: email completo (ex: envio@seudominio.com)
+  Senha: senha do email configurado no hPanel
+
+Gmail (conta pessoal — requer App Password):
+  Host: smtp.gmail.com
+  Porta: 465 (SSL)
+  Usuário: seuemail@gmail.com
+  Senha: App Password (gerar em myaccount.google.com → Segurança → Senhas de app)
+
+Brevo (antigo Sendinblue — gratuito até 300 emails/dia):
+  Host: smtp-relay.brevo.com
+  Porta: 587
+  Usuário: seuemail@brevo.com
+  Senha: chave SMTP gerada no painel
+
+
+========================================================
+OPCIONAL — ENVIAR PARA WEBHOOK (n8n, Make, Zapier etc.)
+========================================================
+
+Adicione no contact.php, logo antes do "echo json_encode":
+
+  $payload = json_encode([
+      'nome'     => $nome,
+      'telefone' => $telefone,
+      'email'    => $email,
+      'data'     => date('d/m/Y H:i'),
+  ]);
+  $ctx = stream_context_create(['http' => [
+      'method'        => 'POST',
+      'header'        => "Content-Type: application/json\r\nContent-Length: " . strlen($payload),
+      'content'       => $payload,
+      'timeout'       => 5,
+      'ignore_errors' => true,
+  ]]);
+  @file_get_contents('https://SEU_WEBHOOK_URL_AQUI', false, $ctx);
+
+
+========================================================
+RESUMO DO FLUXO COMPLETO
+========================================================
+
+1. Usuário preenche o formulário HTML
+2. JavaScript captura o submit e faz fetch POST para /contact.php
+3. contact.php lê os campos via $_POST
+4. contact.php abre conexão SSL com smtp.hostinger.com:465
+5. Autentica com usuário e senha
+6. Envia o email com os dados do lead
+7. (Opcional) Dispara webhook com os dados em JSON
+8. JavaScript redireciona para /obrigado.html
+9. Página de obrigado carrega GTM e Meta Pixel (evento Lead)
+
+========================================================
