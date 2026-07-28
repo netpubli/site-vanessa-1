@@ -384,7 +384,7 @@
               <div class="signs-card-glow" aria-hidden="true"></div>
             </article>
           </div>
-          <div style="text-align:center;padding:3rem 1rem 0"><a class="button button-red" href="#agendar">Agendar avalia&ccedil;&atilde;o gratuita</a></div>
+          <div style="text-align:center;padding:3rem 1rem 0"><a class="button button-red" href="#formulario-rodape">Agendar avalia&ccedil;&atilde;o gratuita</a></div>
         </div>
       </section>
 
@@ -528,7 +528,7 @@
           <span><span data-phosphor="CheckCircle" data-phosphor-size="32" data-phosphor-weight="regular" aria-hidden="true"></span>Mais de 38 anos de experi&ecirc;ncia</span>
           <span><span data-phosphor="CheckCircle" data-phosphor-size="32" data-phosphor-weight="regular" aria-hidden="true"></span>Avalia&ccedil;&atilde;o especializada</span>
         </div>
-        <div style="text-align:center;padding:4rem 1rem 5rem"><a class="button button-red" href="#agendar">Quero testar por 7 dias</a></div>
+        <div style="text-align:center;padding:4rem 1rem 5rem"><a class="button button-red" href="#formulario-rodape">Quero testar por 7 dias</a></div>
       </section>
 
       <!-- ============================================================
@@ -700,7 +700,7 @@
                 </div>
               </div>
               <div class="ss-actions">
-                <button class="button button-red" type="button" onclick="location.href='#agendar'">
+                <button class="button button-red" type="button" onclick="location.href='#formulario-rodape'">
                   Quero experimentar este modelo
                   <span data-phosphor="ArrowRight" data-phosphor-size="19" data-phosphor-weight="bold" aria-hidden="true"></span>
                 </button>
@@ -751,7 +751,7 @@
                 </div>
               </div>
               <div class="ss-actions">
-                <button class="button button-red" type="button" onclick="location.href='#agendar'">
+                <button class="button button-red" type="button" onclick="location.href='#formulario-rodape'">
                   Quero experimentar este modelo
                   <span data-phosphor="ArrowRight" data-phosphor-size="19" data-phosphor-weight="bold" aria-hidden="true"></span>
                 </button>
@@ -802,7 +802,7 @@
                 </div>
               </div>
               <div class="ss-actions">
-                <button class="button button-red" type="button" onclick="location.href='#agendar'">
+                <button class="button button-red" type="button" onclick="location.href='#formulario-rodape'">
                   Quero experimentar este modelo
                   <span data-phosphor="ArrowRight" data-phosphor-size="19" data-phosphor-weight="bold" aria-hidden="true"></span>
                 </button>
@@ -853,7 +853,7 @@
                 </div>
               </div>
               <div class="ss-actions">
-                <button class="button button-red" type="button" onclick="location.href='#agendar'">
+                <button class="button button-red" type="button" onclick="location.href='#formulario-rodape'">
                   Quero experimentar este modelo
                   <span data-phosphor="ArrowRight" data-phosphor-size="19" data-phosphor-weight="bold" aria-hidden="true"></span>
                 </button>
@@ -1012,7 +1012,7 @@
             </button>
           </div>
         </div>
-        <div style="text-align:center;padding:3rem 1rem 4rem"><a class="button button-red" href="#agendar">Agendar teste gratuito</a></div>
+        <div style="text-align:center;padding:3rem 1rem 4rem"><a class="button button-red" href="#formulario-rodape">Agendar teste gratuito</a></div>
       </section>
 
       <section class="reviews-premium-section section-shell" id="avaliacoes" aria-labelledby="reviews-premium-title">
@@ -1100,7 +1100,7 @@
           <h2>D&#250;vidas <span class="text-red">comuns.</span><br />Respostas claras.</h2>
           <div class="section-divider" aria-hidden="true"></div>
           <p class="faq-team-line">Nossa equipe est&#225; pronta para ouvir voc&#234;.</p>
-          <a class="text-link faq-specialist-button" href="#agendar">
+          <a class="text-link faq-specialist-button" href="#formulario-rodape">
             Falar com um especialista
             <span data-phosphor="ArrowRight" data-phosphor-size="20" data-phosphor-weight="bold" aria-hidden="true"></span>
           </a>
@@ -1525,7 +1525,6 @@
       ].join('\n');
       var waEl = document.querySelector('[data-whatsapp-number]');
       var waNumber = (waEl && waEl.dataset.whatsappNumber ? waEl.dataset.whatsappNumber.replace(/\D/g, '') : '') || '5522992458704';
-      try { var fd2 = new FormData(form2); fd2.append('origin', 'agendamento'); fetch('/contact.php', { method: 'POST', body: fd2, keepalive: true }).catch(function () {}); } catch (err) {}
       window.open('https://wa.me/' + waNumber + '?text=' + encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
     });
   });

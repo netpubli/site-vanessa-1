@@ -1581,7 +1581,6 @@
       ].join('\n');
       var waEl = document.querySelector('[data-whatsapp-number]');
       var waNumber = (waEl && waEl.dataset.whatsappNumber ? waEl.dataset.whatsappNumber.replace(/\D/g, '') : '') || '5522992458704';
-      try { var fd2 = new FormData(form2); fd2.append('origin', 'agendamento'); fetch('/contact.php', { method: 'POST', body: fd2, keepalive: true }).catch(function () {}); } catch (err) {}
       window.open('https://wa.me/' + waNumber + '?text=' + encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
     });
   });
