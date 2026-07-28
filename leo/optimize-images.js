@@ -2,7 +2,7 @@ const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 
-const buildDir = path.join(__dirname, 'build');
+const buildDir = path.join(__dirname, 'dist');
 const assetsDir = path.join(buildDir, 'assets');
 const imgDir = path.join(buildDir, 'img');
 
