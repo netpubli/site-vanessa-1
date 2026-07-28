@@ -1470,6 +1470,66 @@
     });
   })();
   </script>
+  <script>
+  // Segundo formulário (#formulario-rodape) — o JS compilado usa querySelector e só pega o primeiro
+  document.addEventListener('DOMContentLoaded', function () {
+    var forms = document.querySelectorAll('[data-booking-form]');
+    if (forms.length < 2) return;
+    var form2 = forms[1];
+    var btn2 = form2.querySelector('[data-booking-next]');
+    var stepLabel2 = form2.querySelector('[data-booking-step-label]');
+    var stepValue2 = form2.querySelector('[data-booking-step-value]');
+    var stepFocus2 = form2.querySelector('[data-booking-step-two-focus]');
+
+    function advanceToStep2() {
+      if (form2.classList.contains('is-step-two')) return;
+      var step1 = form2.querySelector('[data-booking-step="1"]');
+      var allValid = Array.prototype.every.call(step1.querySelectorAll('[required]'), function (inp) { return inp.reportValidity(); });
+      if (!allValid) return;
+      form2.classList.add('is-step-two');
+      var step2el = form2.querySelector('[data-booking-step="2"]');
+      if (step2el) step2el.setAttribute('aria-hidden', 'false');
+      if (stepLabel2) stepLabel2.textContent = 'Etapa 2 de 2';
+      if (stepValue2) stepValue2.textContent = '100%';
+      var fill = form2.querySelector('[data-booking-progress-fill]');
+      if (fill) fill.style.width = '100%';
+      window.setTimeout(function () {
+        if (stepFocus2) { stepFocus2.focus(); stepFocus2.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      }, 300);
+    }
+
+    if (btn2) btn2.addEventListener('click', advanceToStep2);
+
+    form2.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var fd = new FormData(form2);
+      var name = fd.get('booking_name') || '';
+      var phone = fd.get('booking_phone') || '';
+      var email = fd.get('booking_email') || '';
+      var city = fd.get('booking_city') || '';
+      var presence = fd.get('booking_presence') || '';
+      var audiometry = fd.get('booking_audiometry') || '';
+      var devices = fd.get('booking_devices') || '';
+      var symptom = fd.get('booking_symptom') || '';
+      var msg = [
+        'Olá! Gostaria de agendar minha avaliação gratuita.',
+        '',
+        'Nome: ' + name,
+        'Telefone: ' + phone,
+        'E-mail: ' + (email || 'Não informado'),
+        'Cidade: ' + (city || 'Não informada'),
+        'Consegue vir presencialmente: ' + (presence || 'Não informado'),
+        'Audiometria: ' + (audiometry || 'Não informado'),
+        'Já usa aparelhos auditivos: ' + (devices || 'Não informado'),
+        'Sintoma: ' + (symptom || 'Não informado')
+      ].join('\n');
+      var waEl = document.querySelector('[data-whatsapp-number]');
+      var waNumber = (waEl && waEl.dataset.whatsappNumber ? waEl.dataset.whatsappNumber.replace(/\D/g, '') : '') || '5522992458704';
+      try { var fd2 = new FormData(form2); fd2.append('origin', 'agendamento'); fetch('/contact.php', { method: 'POST', body: fd2, keepalive: true }).catch(function () {}); } catch (err) {}
+      window.open('https://wa.me/' + waNumber + '?text=' + encodeURIComponent(msg), '_blank', 'noopener,noreferrer');
+    });
+  });
+  </script>
 
   </body>
 </html>
