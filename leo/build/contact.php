@@ -20,6 +20,16 @@ $devices  = htmlspecialchars(strip_tags(trim($_POST['booking_devices']  ?? '')))
 $symptom  = htmlspecialchars(strip_tags(trim($_POST['booking_symptom']  ?? '')));
 $origin   = htmlspecialchars(strip_tags(trim($_POST['origin']           ?? 'site')));
 
+// ── UTM / rastreamento ─────────────────────────────────────────────────────
+$utm_source   = htmlspecialchars(strip_tags(trim($_POST['utm_source']   ?? '')));
+$utm_medium   = htmlspecialchars(strip_tags(trim($_POST['utm_medium']   ?? '')));
+$utm_campaign = htmlspecialchars(strip_tags(trim($_POST['utm_campaign'] ?? '')));
+$utm_content  = htmlspecialchars(strip_tags(trim($_POST['utm_content']  ?? '')));
+$utm_term     = htmlspecialchars(strip_tags(trim($_POST['utm_term']     ?? '')));
+$gclid        = htmlspecialchars(strip_tags(trim($_POST['gclid']        ?? '')));
+$fbclid       = htmlspecialchars(strip_tags(trim($_POST['fbclid']       ?? '')));
+$ttclid       = htmlspecialchars(strip_tags(trim($_POST['ttclid']       ?? '')));
+
 // ── Configuração SMTP ──────────────────────────────────────────────────────
 $smtp_host = 'smtp.hostinger.com';
 $smtp_port = 465;
@@ -44,6 +54,18 @@ if ($audiology) $body .= "Audiometria: $audiology\n";
 if ($devices)   $body .= "Aparelhos:   $devices\n";
 if ($symptom)   $body .= "Sintoma:     $symptom\n";
 $body .= "Formulário:  $origin\n";
+if ($utm_source || $utm_medium || $utm_campaign || $utm_content || $utm_term || $gclid || $fbclid || $ttclid) {
+    $body .= "================================\n";
+    $body .= "Rastreamento (UTM)\n";
+    if ($utm_source)   $body .= "utm_source:   $utm_source\n";
+    if ($utm_medium)   $body .= "utm_medium:   $utm_medium\n";
+    if ($utm_campaign) $body .= "utm_campaign: $utm_campaign\n";
+    if ($utm_content)  $body .= "utm_content:  $utm_content\n";
+    if ($utm_term)     $body .= "utm_term:     $utm_term\n";
+    if ($gclid)        $body .= "gclid:        $gclid\n";
+    if ($fbclid)       $body .= "fbclid:       $fbclid\n";
+    if ($ttclid)       $body .= "ttclid:       $ttclid\n";
+}
 $body .= "================================\n";
 $body .= "Data: " . date('d/m/Y H:i') . "\n";
 
@@ -92,16 +114,24 @@ $sent = smtp_send($smtp_host, $smtp_port, $smtp_user, $smtp_pass, $from_addr, $f
 
 // ── Webhook ────────────────────────────────────────────────────────────────
 $webhook_payload = json_encode([
-    'nome'        => $name,
-    'telefone'    => $phone,
-    'email'       => $email,
-    'cidade'      => $city,
-    'presencial'  => $presence,
-    'audiometria' => $audiology,
-    'aparelhos'   => $devices,
-    'sintoma'     => $symptom,
-    'formulario'  => $origin,
-    'data'        => date('d/m/Y H:i'),
+    'nome'         => $name,
+    'telefone'     => $phone,
+    'email'        => $email,
+    'cidade'       => $city,
+    'presencial'   => $presence,
+    'audiometria'  => $audiology,
+    'aparelhos'    => $devices,
+    'sintoma'      => $symptom,
+    'formulario'   => $origin,
+    'utm_source'   => $utm_source,
+    'utm_medium'   => $utm_medium,
+    'utm_campaign' => $utm_campaign,
+    'utm_content'  => $utm_content,
+    'utm_term'     => $utm_term,
+    'gclid'        => $gclid,
+    'fbclid'       => $fbclid,
+    'ttclid'       => $ttclid,
+    'data'         => date('d/m/Y H:i'),
 ]);
 $ctx = stream_context_create(['http' => [
     'method'        => 'POST',

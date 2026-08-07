@@ -3077,7 +3077,7 @@ main > section + section {
   grid-area: footer;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1.5rem;
   padding-top: 2rem;
   border-top: 1px solid rgba(10, 40, 45, 0.08);
@@ -3086,7 +3086,7 @@ main > section + section {
 .reviews-premium-footer-badge-block {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.4rem;
 }
 
