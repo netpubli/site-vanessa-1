@@ -1,9 +1,8 @@
 DirectoryIndex index.html
 
-<Files ".env">
-  Order allow,deny
-  Deny from all
-</Files>
+<FilesMatch "(^\.env(?:\..*)?$|\.[Zz][Ii][Pp]$)">
+  Require all denied
+</FilesMatch>
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
